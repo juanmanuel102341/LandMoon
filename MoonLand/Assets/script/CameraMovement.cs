@@ -7,33 +7,47 @@ public class CameraMovement : MonoBehaviour {
 
 
 	public PlayerController pc;
+	private float heightBackround;
+	public Transform transformPlayer;
 	private bool activeFronteraSuperior=false;
 
 	private GameObject gravity; 
 	void Start () {
-		gravity=GameObject.FindGameObjectWithTag("gravedad");
+		//gravity=GameObject.FindGameObjectWithTag("gravedad");
 
-		Frontera.onLimite+=OnMove;
-	
-		print ("impulso propiedad "+pc.impulsoUp);
+		//Frontera.onLimite+=OnMove;
+		heightBackround=GameObject.FindGameObjectWithTag("backImage").GetComponent<Transform>().position.y;
+		print("heightBackround "+heightBackround);
+
+		//print ("impulso propiedad "+pc.impulsoUp);
+		//transform.position=new Vector2(transformPlayer.position);
+		transform.position=new Vector3(transformPlayer.position.x,transformPlayer.position.y,transform.position.z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		if(activeFronteraSuperior){
-			transform.Translate(Vector2.up*pc.impulsoUp);
-		//	transform.Translate(Vector2.down*0.9f*Time.deltaTime);
+		//vertical 
+		print("i "+pc.impulso);
+		if(pc.transform.position.y>heightBackround||!pc.horizontal&&pc.impulso>0&&pc.transform.position.y>heightBackround){
+		transform.position=new Vector3(transformPlayer.position.x,transformPlayer.position.y,transform.position.z);
+		//transform.Translate(Vector2.up*pc.impulsoUp);
 		}
+
+
+
+		//if(activeFronteraSuperior){
+			
+		//	transform.Translate(Vector2.down*0.9f*Time.deltaTime);
+		//}
 
 	//	print ("impulso propiedad "+pc.impulsoUp);
 	}
 
 	void OnMove(){
 	//	gravity.SetActive(true);
-		transform.SetParent(gravity.GetComponent<Transform>());
+		//transform.SetParent(gravity.GetComponent<Transform>());
 		//print ("impulso propiedad evento"+pc.impulsoUp);
-		activeFronteraSuperior=true;
+		//activeFronteraSuperior=true;
 				//print("camara movimiento");
 	}
 	public bool FrontSuperior{

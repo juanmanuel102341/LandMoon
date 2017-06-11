@@ -13,7 +13,7 @@ public class Frontera : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D c){
 		print("frontera");
-		onLimite();
+//		onLimite();
 		//c.GetComponent<Rigidbody2D>().gravityScale*=2;
 	//	c.GetComponent<PlayerController>().velocity=20;
 	}
