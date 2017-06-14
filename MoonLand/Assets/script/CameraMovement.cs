@@ -28,7 +28,7 @@ public class CameraMovement : MonoBehaviour {
 	void Update () {
 		//vertical 
 		print("i "+pc.impulso);
-		if(pc.transform.position.y>heightBackround||!pc.horizontal&&pc.impulso>0&&pc.transform.position.y>heightBackround){
+		if(this.transform.position.y>330.3){
 		transform.position=new Vector3(transformPlayer.position.x,transformPlayer.position.y,transform.position.z);
 		//transform.Translate(Vector2.up*pc.impulsoUp);
 		}
