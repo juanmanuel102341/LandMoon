@@ -39,22 +39,24 @@ public class PlayerController_01 : MonoBehaviour {
 		//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
 		if(Input.GetButton(nombreAxisRotacion)){
 			if(Input.GetAxisRaw(nombreAxisRotacion)<0&&transform.rotation.eulerAngles.z<90){
-				//si apreto ala izquierda y la posicion de euler es igual a 0 se activa booleano d rotacion izquierda
+				//si apreto ala izquierda y la posicion de euler es menor a 90 se activa booleano d rotacion izquierda
+				//hago esto para cuando llego al limite de la derecha(euler>270) pueda volver a rotar para la izquierda ya q sn lo
+				//pongo no lo puedo hacer o no funciona el limite 
+
 				print("izquierda activo");
 				izquierda=true;
 			}
 
 			if(Input.GetAxisRaw(nombreAxisRotacion)>0&&transform.rotation.eulerAngles.z>=270){
-				//si apreto a la derecha y es igual a 0 , inicia rotacion derecha
+				//si apreto a la derecha y es mayor a 270 , inicia rotacion derecha
 				print("derecha activa");
 				izquierda=false;
 			}
-		//	
-			if(izquierda&&transform.rotation.eulerAngles.z>=0&&Input.GetAxisRaw(nombreAxisRotacion)>0){
-				
-			}
-			if(transform.rotation.eulerAngles.z<90||Input.GetAxisRaw(nombreAxisRotacion)>0&&izquierda||transform.rotation.eulerAngles.z>270||transform.rotation.eulerAngles.z==0||Input.GetAxisRaw(nombreAxisRotacion)<0&&izquierda==false){
-				
+		
+			if(transform.rotation.eulerAngles.z<90||Input.GetAxisRaw(nombreAxisRotacion)>0&&
+				izquierda||transform.rotation.eulerAngles.z>270||transform.rotation.eulerAngles.z==0||
+				Input.GetAxisRaw(nombreAxisRotacion)<0&&izquierda==false){
+
 				//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
 				//print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
 				acumuladorFuerzaRotacion=Input.GetAxisRaw(nombreAxisRotacion)*velocityRotacion*-1;
