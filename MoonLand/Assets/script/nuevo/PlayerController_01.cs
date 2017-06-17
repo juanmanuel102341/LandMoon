@@ -4,9 +4,9 @@ public class PlayerController_01 : MonoBehaviour {
 	public float velocityRotacion;
 	public float velocity;
 
+	private int vidas=3;
 	private float acumuladorFuerzaEjeVertical=0;
 	private float acumuladorFuerzaRotacion=0;
-	private float fuerzaRotacion=0;
 	private int combustible=950;
 	private Rigidbody2D rbody;
 	private string nombreAxisRotacion="ejeHorizontal";
@@ -14,12 +14,11 @@ public class PlayerController_01 : MonoBehaviour {
 	void Awake () {
 		rbody=GetComponent<Rigidbody2D>();
 		acumuladorFuerzaEjeVertical=0;
-		fuerzaRotacion=0;
 		combustible=950;
 		izquierda=false;
 	}
 	void Update () {
-	
+//		print("arriba "+acumuladorFuerzaEjeVertical);
 		Teclas();
 
 	
@@ -28,7 +27,7 @@ public class PlayerController_01 : MonoBehaviour {
 	void Teclas(){
 		if(Input.GetButton("arriba")){
 			acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
-		//	print("arriba "+acumuladorFuerzaEjeVertical);
+	
 			rbody.transform.Translate(Vector2.up*acumuladorFuerzaEjeVertical*Time.deltaTime);
 		}
 		if(Input.GetButton("arriba")){
@@ -41,7 +40,7 @@ public class PlayerController_01 : MonoBehaviour {
 			if(Input.GetAxisRaw(nombreAxisRotacion)<0&&transform.rotation.eulerAngles.z<90){
 				//si apreto ala izquierda y la posicion de euler es menor a 90 se activa booleano d rotacion izquierda
 				//hago esto para cuando llego al limite de la derecha(euler>270) pueda volver a rotar para la izquierda ya q sn lo
-				//pongo no lo puedo hacer o no funciona el limite 
+				//pongo, no lo puedo hacer o no funciona el limite 
 
 				print("izquierda activo");
 				izquierda=true;
@@ -73,5 +72,13 @@ public class PlayerController_01 : MonoBehaviour {
 
 		}
 
+	}
+	public int Vidas{
+		get{
+			return vidas;
+		}
+		set{
+			vidas=value;
+		}
 	}
 }

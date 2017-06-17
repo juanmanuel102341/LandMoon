@@ -100,11 +100,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1115387209}
   - component: {fileID: 1115387208}
-  - component: {fileID: 1115387207}
+  - component: {fileID: 1115387212}
   - component: {fileID: 1115387210}
+  - component: {fileID: 1115387207}
   - component: {fileID: 1115387211}
+  - component: {fileID: 1115387213}
+  - component: {fileID: 1115387214}
   m_Layer: 0
-  m_Name: Triangle
+  m_Name: Personaje
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2a14f414480a14fbea78718ce37ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuerza: 0.2
+  fuerza: 0.4
   transformPlaneta: {fileID: 1462153728}
 --- !u!212 &1115387208
 SpriteRenderer:
@@ -154,7 +157,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4304486bbe0ab764c8ad2590c8d67607, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 861044b7ae654804fb51d69f81449b45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -165,8 +168,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1115387206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.18, y: -1.49, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.8, y: 1.96, z: 0}
+  m_LocalScale: {x: 0.44211876, y: 0.4421187, z: 0.4421187}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -182,7 +185,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -204,6 +207,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityRotacion: 50
   velocity: 2.5
+--- !u!61 &1115387212
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1115387206}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+--- !u!114 &1115387213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1115387206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f077049b1f42f4e4482b444518e36896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1115387214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1115387206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489047579f1891e49954f3f8bb3c7242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawn: 1.5
 --- !u!1 &1462153726
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,8 +253,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1462153728}
   - component: {fileID: 1462153727}
+  - component: {fileID: 1462153730}
+  - component: {fileID: 1462153729}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Planeta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,11 +305,36 @@ Transform:
   m_GameObject: {fileID: 1462153726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.81, y: 2.22, z: 0}
-  m_LocalScale: {x: 5.2685204, y: 4.6700306, z: 1.6775943}
+  m_LocalScale: {x: 2.8113658, y: 2.811363, z: 2.811363}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1462153729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1462153726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c499a6b69219644480d587857b18aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &1462153730
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1462153726}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.52
 --- !u!1 &1938706187
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ public class Gravedad : MonoBehaviour {
 	}
 
 	float CalcDistance(){
+		//distancia entre el personaje y planeta
 		return Vector2.Distance(transformPersonaje.position,transformPlaneta.position);
 	}
 	float PropX(){
@@ -33,7 +34,7 @@ public class Gravedad : MonoBehaviour {
 		propx=PropX();
 		propy=PropY();
 
-		rb.transform.Translate(new Vector2(propx,propy)*Time.deltaTime*fuerza);
+		rb.transform.Translate(new Vector2(propx,propy)*Time.deltaTime*fuerza,Space.World);//establezco el translate del vector segun las proporciones en x e y y establezco como referencia el mundo sino tengo problemas con la rotacion  
 
 		}
 
