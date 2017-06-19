@@ -4,6 +4,8 @@ public class PlayerController_01 : MonoBehaviour {
 	public float velocityRotacion;
 	public float velocity;
 
+
+	private float verticalSpeed;//velocidad vertical
 	private int vidas=3;
 	private float acumuladorFuerzaEjeVertical=0;
 	private float acumuladorFuerzaRotacion=0;
@@ -18,21 +20,23 @@ public class PlayerController_01 : MonoBehaviour {
 		izquierda=false;
 	}
 	void Update () {
-//		print("arriba "+acumuladorFuerzaEjeVertical);
-		Teclas();
 
-	
+		Teclas();
+		//verticalSpeed
+
+		//print("arriba "+acumuladorFuerzaEjeVertical);
 
 	}
 	void Teclas(){
 		if(Input.GetButton("arriba")){
 			acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
-	
+
+		//	print("arriba "+acumuladorFuerzaEjeVertical);
 			rbody.transform.Translate(Vector2.up*acumuladorFuerzaEjeVertical*Time.deltaTime);
 		}
 		if(Input.GetButton("arriba")){
 			acumuladorFuerzaEjeVertical=0;
-			print("suelto arriba");
+		//	print("suelto arriba");
 		}
 		//print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
 		//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
@@ -42,13 +46,13 @@ public class PlayerController_01 : MonoBehaviour {
 				//hago esto para cuando llego al limite de la derecha(euler>270) pueda volver a rotar para la izquierda ya q sn lo
 				//pongo, no lo puedo hacer o no funciona el limite 
 
-				print("izquierda activo");
+				//print("izquierda activo");
 				izquierda=true;
 			}
 
 			if(Input.GetAxisRaw(nombreAxisRotacion)>0&&transform.rotation.eulerAngles.z>=270){
 				//si apreto a la derecha y es mayor a 270 , inicia rotacion derecha
-				print("derecha activa");
+			//	print("derecha activa");
 				izquierda=false;
 			}
 		

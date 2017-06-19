@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour {
 	void Awake() {
 		active=false;//booleano del timer 
 	
-		ColisionPlaneta.onDeteccion+=OnTimeRespawn;//tomo evento deteccion del script colion planeta cuando hay contacto se activa on time respawn calcula
+		ColisionJugador.respawn+=OnTimeRespawn;//tomo evento deteccion del script colision jjugador cuando hay contacto se activa on time respawn calcula
 													//un tiempo y manda genera un evento de respawn para el script colision jugador 
 
 	}
