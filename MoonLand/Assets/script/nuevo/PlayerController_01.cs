@@ -5,70 +5,66 @@ public class PlayerController_01 : MonoBehaviour {
 	public float velocity;
 
 
-	private float verticalSpeed;//velocidad vertical
+	private float verticalSpeed=0;//velocidad vertical
 	private int vidas=3;
 	private float acumuladorFuerzaEjeVertical=0;
 	private float acumuladorFuerzaRotacion=0;
 	private int combustible=950;
 	private Rigidbody2D rbody;
 	private string nombreAxisRotacion="ejeHorizontal";
-	private bool izquierda=false;
+	//private bool izquierda=false;
+	private float distanciaRecorrida;
+	private Gravedad compGravedad;
 	void Awake () {
 		rbody=GetComponent<Rigidbody2D>();
 		acumuladorFuerzaEjeVertical=0;
 		combustible=950;
-		izquierda=false;
+		compGravedad=GetComponent<Gravedad>();
+	//	izquierda=false;
 	}
 	void Update () {
 
 		Teclas();
 		//verticalSpeed
-
+	
 		//print("arriba "+acumuladorFuerzaEjeVertical);
-
+		//print("player velocity vertical "+Calc());
+	}
+	float Calc(){
+		return verticalSpeed-compGravedad.DistanciaRec;
 	}
 	void Teclas(){
 		if(Input.GetButton("arriba")){
 			acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
 
-		//	print("arriba "+acumuladorFuerzaEjeVertical);
+
 			rbody.transform.Translate(Vector2.up*acumuladorFuerzaEjeVertical*Time.deltaTime);
+			verticalSpeed+=acumuladorFuerzaEjeVertical*Time.deltaTime;
+		
 		}
 		if(Input.GetButton("arriba")){
-			acumuladorFuerzaEjeVertical=0;
+			compGravedad.DistanciaRec=Calc();
+			//acumuladorFuerzaEjeVertical=0;
+			//verticalSpeed=0;
 		//	print("suelto arriba");
 		}
 		//print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
 		//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
 		if(Input.GetButton(nombreAxisRotacion)){
-			if(Input.GetAxisRaw(nombreAxisRotacion)<0&&transform.rotation.eulerAngles.z<90){
-				//si apreto ala izquierda y la posicion de euler es menor a 90 se activa booleano d rotacion izquierda
-				//hago esto para cuando llego al limite de la derecha(euler>270) pueda volver a rotar para la izquierda ya q sn lo
-				//pongo, no lo puedo hacer o no funciona el limite 
-
-				//print("izquierda activo");
-				izquierda=true;
-			}
-
-			if(Input.GetAxisRaw(nombreAxisRotacion)>0&&transform.rotation.eulerAngles.z>=270){
-				//si apreto a la derecha y es mayor a 270 , inicia rotacion derecha
-			//	print("derecha activa");
-				izquierda=false;
-			}
-		
-			if(transform.rotation.eulerAngles.z<90||Input.GetAxisRaw(nombreAxisRotacion)>0&&
-				izquierda||transform.rotation.eulerAngles.z>270||transform.rotation.eulerAngles.z==0||
-				Input.GetAxisRaw(nombreAxisRotacion)<0&&izquierda==false){
-
+			
+			if(Input.GetAxisRaw(nombreAxisRotacion)>0){
 				//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
 				//print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
-				acumuladorFuerzaRotacion=Input.GetAxisRaw(nombreAxisRotacion)*velocityRotacion*-1;
+				acumuladorFuerzaRotacion=velocityRotacion*-1;
+				rbody.angularVelocity=acumuladorFuerzaRotacion;
+				}else if(Input.GetAxisRaw(nombreAxisRotacion)<0){
+				acumuladorFuerzaRotacion=velocityRotacion;
 				rbody.angularVelocity=acumuladorFuerzaRotacion;
 
-				}else{
-						rbody.angularVelocity=0;
 						//print("limite rotacion");
-				}
+			}else{
+				rbody.angularVelocity=0;
+			}
 
 			}	
 		if(Input.GetButtonUp("ejeHorizontal")){
@@ -84,5 +80,11 @@ public class PlayerController_01 : MonoBehaviour {
 		set{
 			vidas=value;
 		}
+	}
+	public float SpeedPlayer{
+		get{
+			return verticalSpeed;
+		}
+
 	}
 }

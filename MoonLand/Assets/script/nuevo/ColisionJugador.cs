@@ -26,7 +26,7 @@ public class ColisionJugador : MonoBehaviour {
 		print("colision");
 		switch(c.tag){
 		case"planeta_tag":
-			OnContactoObjeto();
+			//OnContactoObjeto();
 			break;
 		case"plataforma_tag":
 			OnContactoPlataforma();

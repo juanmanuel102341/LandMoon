@@ -9,6 +9,8 @@ TagManager:
   - frontera
   - backImage
   - target
+  - plataforma_tag
+  - planeta_tag
   layers:
   - Default
   - TransparentFX
