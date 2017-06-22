@@ -16,9 +16,12 @@ public class Gravedad : MonoBehaviour {
 	private float n;
 	private float distanceObj=0;
 	private Vector2 posInicial;
-	private float magnitud;
+	private float magnitudGravedad;
 	private float constanteAcum=0;
 	private float time;
+	private Vector2 vGravity;
+
+	private float fuerzaVertical=0;
 	void Awake(){
 		transformPersonaje=GetComponent<Transform>();
 		rb=GetComponent<Rigidbody2D>();
@@ -35,11 +38,20 @@ public class Gravedad : MonoBehaviour {
 		//print("distancia entre el planeta y jugador "+Vector2.Distance(transformPersonaje.position,transformPlaneta.position));
 		return Vector2.Distance(transformPersonaje.position,transformPlaneta.position);
 	}
-	float Desplazamiento(){
-		magnitud=fuerza*Time.deltaTime*constanteAcum;
+	public void Desplazamiento(){
+		fuerzaVertical=magnitudGravedad+playerControl.MagnitudVelocidad;
+		//magnitud+=fuerza*Time.deltaTime;
+		magnitudGravedad-=0.6f*Time.deltaTime;
+		print("fuerzaVertical G"+fuerzaVertical);
 
+		if(fuerzaVertical<0){
+			
+			propx=PropX();
+			propy=PropY();
+			rb.AddForce(new Vector2(propx,propy)*fuerzaVertical*-1);
+		}
 		//print("magnitud "+magnitud);
-		return magnitud;
+		//return magnitud;
 	}
 
 	float PropX(){
@@ -54,27 +66,35 @@ public class Gravedad : MonoBehaviour {
 
 	void FixedUpdate(){
 		
-		propx=PropX();
-		propy=PropY();
+
+		Desplazamiento();
 		//print("vertical speed "+Desplazamiento());
 		//time+=Time.deltaTime;
 		//if(time>0.5f){
-		constanteAcum+=0.02f;
+		//constanteAcum+=0.02f;
 	//	}
 		//magnitud=aceleracion-playerControl.SpeedPlayer;
 		//print("distanciaAcumulada "+distanciaAcumulada);
 		//print("magnitud"+magnitud);
-		rb.transform.Translate(new Vector2(propx,propy)*Desplazamiento(),Space.World);//establezco el translate del vector segun las proporciones en x e y y establezco como referencia el mundo sino tengo problemas con la rotacion  
-			
+		//rb.transform.Translate(new Vector2(propx,propy)*Desplazamiento(),Space.World);//establezco el translate del vector segun las proporciones en x e y y establezco como referencia el mundo sino tengo problemas con la rotacion  
+	//	rb.AddForce(new Vector2(propx,propy)*magnitud);	
 		}
 
-	public float DistanciaRec{
-		get {
-			return magnitud; 
+	public float MagnitudGravity{
+		get{
+			return magnitudGravedad;
 		}
-		set {
-			magnitud=value;
+
+
+	}
+	public float FuerzaVertical_prop{
+		get{
+			return fuerzaVertical;
 		}
+		set{
+			fuerzaVertical=value;
+		}
+
 	}
 }
 

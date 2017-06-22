@@ -24,12 +24,16 @@ public class ColisionJugador : MonoBehaviour {
 	}
 	void OnTriggerEnter2D(Collider2D c){
 		print("colision");
+//		Rigidbody2D rb=c.GetComponent;
+	
 		switch(c.tag){
 		case"planeta_tag":
 			//OnContactoObjeto();
 			break;
 		case"plataforma_tag":
 			OnContactoPlataforma();
+
+			//rb.GetPointVelocity
 			break;
 		}
 

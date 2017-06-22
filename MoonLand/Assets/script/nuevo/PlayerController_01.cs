@@ -2,7 +2,7 @@
 
 public class PlayerController_01 : MonoBehaviour {
 	public float velocityRotacion;
-	public float velocity;
+	public float velocity=0;
 
 
 	private float verticalSpeed=0;//velocidad vertical
@@ -15,6 +15,9 @@ public class PlayerController_01 : MonoBehaviour {
 	//private bool izquierda=false;
 	private float distanciaRecorrida;
 	private Gravedad compGravedad;
+	private Vector2 vspeed;
+	public float aceleracion;
+
 	void Awake () {
 		rbody=GetComponent<Rigidbody2D>();
 		acumuladorFuerzaEjeVertical=0;
@@ -26,27 +29,33 @@ public class PlayerController_01 : MonoBehaviour {
 
 		Teclas();
 		//verticalSpeed
-	
-		//print("arriba "+acumuladorFuerzaEjeVertical);
+//		print("velocidad obj"+this.rbody.velocity);
+//		print("force "+rbody.velocity);
 		//print("player velocity vertical "+Calc());
 	}
-	float Calc(){
-		return verticalSpeed-compGravedad.DistanciaRec;
+	public void Desplazamiento(){
+		
+		compGravedad.FuerzaVertical_prop=compGravedad.MagnitudGravity+velocity;
 	}
 	void Teclas(){
 		if(Input.GetButton("arriba")){
-			acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
+			//acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
+			velocity+=1.3f*Time.deltaTime;
+			//print("fuerzaVertical player"+compGravedad.FuerzaVertical_prop);
+			Desplazamiento();
+			//print("velocity "+velocity);
 
-
-			rbody.transform.Translate(Vector2.up*acumuladorFuerzaEjeVertical*Time.deltaTime);
-			verticalSpeed+=acumuladorFuerzaEjeVertical*Time.deltaTime;
-		
+			if(	compGravedad.FuerzaVertical_prop>0){
+				rbody.AddForce(transform.up*compGravedad.FuerzaVertical_prop);
+			//verticalSpeed+=acumuladorFuerzaEjeVertical*Time.deltaTime;
+			}
 		}
 		if(Input.GetButton("arriba")){
-			compGravedad.DistanciaRec=Calc();
+
 			//acumuladorFuerzaEjeVertical=0;
 			//verticalSpeed=0;
 		//	print("suelto arriba");
+			//aceleracion=0;
 		}
 		//print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
 		//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
@@ -81,9 +90,9 @@ public class PlayerController_01 : MonoBehaviour {
 			vidas=value;
 		}
 	}
-	public float SpeedPlayer{
+	public float MagnitudVelocidad{
 		get{
-			return verticalSpeed;
+			return velocity;
 		}
 
 	}
