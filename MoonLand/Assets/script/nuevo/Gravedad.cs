@@ -22,6 +22,8 @@ public class Gravedad : MonoBehaviour {
 	private Vector2 vGravity;
 
 	private float fuerzaVertical=0;
+	private bool active_key=false;
+	//public static bool activeKey=false;
 	void Awake(){
 		transformPersonaje=GetComponent<Transform>();
 		rb=GetComponent<Rigidbody2D>();
@@ -31,6 +33,7 @@ public class Gravedad : MonoBehaviour {
 		playerControl=GetComponent<PlayerController_01>();
 		posInicial=transform.position;
 		print("pos inicial "+posInicial);
+		active_key=false;
 	}
 
 	float CalcDistance(){
@@ -40,18 +43,32 @@ public class Gravedad : MonoBehaviour {
 	}
 	public void Desplazamiento(){
 		fuerzaVertical=magnitudGravedad+playerControl.MagnitudVelocidad;
+		print(fuerzaVertical);
+//		fuerzaVertical=Mathf.Abs(fuerzaVertical);
 		//magnitud+=fuerza*Time.deltaTime;
-		magnitudGravedad-=0.6f*Time.deltaTime;
-		print("fuerzaVertical G"+fuerzaVertical);
+		print("fuerza vertical "+fuerzaVertical);
+		if(active_key==false){
+		magnitudGravedad-=0.2f*Time.deltaTime;
+			//print("gravedad "+magnitudGravedad);
+		}
 
-		if(fuerzaVertical<0){
-			
-			propx=PropX();
-			propy=PropY();
-			rb.AddForce(new Vector2(propx,propy)*fuerzaVertical*-1);
+		if(fuerzaVertical<0.0f){
+			print("gana gravedad comun");
+		
+			DesplazamientoGravedad(-1);
+				
+		}
+		if(fuerzaVertical>0.0f&&active_key==false){
+			print("player suspendido");
+			DesplazamientoGravedad(1);
 		}
 		//print("magnitud "+magnitud);
 		//return magnitud;
+	}
+	void DesplazamientoGravedad(int d){
+		propx=PropX();
+		propy=PropY();
+		rb.AddForce(new Vector2(propx,propy)*fuerzaVertical*d);
 	}
 
 	float PropX(){
@@ -96,5 +113,14 @@ public class Gravedad : MonoBehaviour {
 		}
 
 	}
+	public bool ActiveKey_prop{
+		get{
+		return active_key;
+		}
+	set{
+		active_key=value;
+		}
+}
+
 }
 

@@ -2,7 +2,7 @@
 
 public class PlayerController_01 : MonoBehaviour {
 	public float velocityRotacion;
-	public float velocity=0;
+	private float velocity=0;
 
 
 	private float verticalSpeed=0;//velocidad vertical
@@ -16,7 +16,7 @@ public class PlayerController_01 : MonoBehaviour {
 	private float distanciaRecorrida;
 	private Gravedad compGravedad;
 	private Vector2 vspeed;
-	public float aceleracion;
+	public int direccion=1;
 
 	void Awake () {
 		rbody=GetComponent<Rigidbody2D>();
@@ -24,6 +24,7 @@ public class PlayerController_01 : MonoBehaviour {
 		combustible=950;
 		compGravedad=GetComponent<Gravedad>();
 	//	izquierda=false;
+		velocity=0;
 	}
 	void Update () {
 
@@ -35,23 +36,39 @@ public class PlayerController_01 : MonoBehaviour {
 	}
 	public void Desplazamiento(){
 		
-		compGravedad.FuerzaVertical_prop=compGravedad.MagnitudGravity+velocity;
+		velocity+=0.2f*Time.deltaTime;
+	//	print("velocity "+velocity);
+		if(compGravedad.FuerzaVertical_prop<0){
+			direccion=-1;
+		}else{
+			direccion=1;
+		}
+
+		if(compGravedad.FuerzaVertical_prop>0){
+			print("gana fuerza player");
+			rbody.AddRelativeForce(transform.up*compGravedad.FuerzaVertical_prop*direccion);
+
+		}
 	}
 	void Teclas(){
+		//print("boleeano "+	compGravedad.ActiveKey_prop);
+
+		//print("compGravedad.FuerzaVertical_prop "+compGravedad.FuerzaVertical_prop);	
 		if(Input.GetButton("arriba")){
+			print("press");
 			//acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
-			velocity+=1.3f*Time.deltaTime;
+			compGravedad.ActiveKey_prop=true;
+		
 			//print("fuerzaVertical player"+compGravedad.FuerzaVertical_prop);
 			Desplazamiento();
-			//print("velocity "+velocity);
-
-			if(	compGravedad.FuerzaVertical_prop>0){
-				rbody.AddForce(transform.up*compGravedad.FuerzaVertical_prop);
+			//print("arriba"+velocity);
+		
 			//verticalSpeed+=acumuladorFuerzaEjeVertical*Time.deltaTime;
-			}
-		}
-		if(Input.GetButton("arriba")){
 
+		}
+		if(Input.GetButtonUp("arriba")){
+			
+			compGravedad.ActiveKey_prop=false;
 			//acumuladorFuerzaEjeVertical=0;
 			//verticalSpeed=0;
 		//	print("suelto arriba");
