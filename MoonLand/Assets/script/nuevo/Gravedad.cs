@@ -2,7 +2,6 @@
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Gravedad : MonoBehaviour {
-	public float fuerza;
 	private float propx;
 	private float propy;
 	private float distancia;
@@ -10,19 +9,14 @@ public class Gravedad : MonoBehaviour {
 	private Transform transformPersonaje;
 	private Rigidbody2D rb;
 	private float distanceInicial;
-	private float distanciaAcumulada=0;
 	private PlayerController_01 playerControl;
-
-	private float n;
-	private float distanceObj=0;
 	private Vector2 posInicial;
-	private float magnitudGravedad;
 	private float constanteAcum=0;
 	private float time;
-	private Vector2 vGravity;
-
-	private float fuerzaVertical=0;
+	private float fuerzaVertical2=0;
 	private bool active_key=false;
+	public float frecuencia=0.4f;
+	private float velocidad_01;
 	//public static bool activeKey=false;
 	void Awake(){
 		transformPersonaje=GetComponent<Transform>();
@@ -32,7 +26,7 @@ public class Gravedad : MonoBehaviour {
 		distanceInicial=Vector2.Distance(transformPersonaje.position,transformPlaneta.position);
 		playerControl=GetComponent<PlayerController_01>();
 		posInicial=transform.position;
-		print("pos inicial "+posInicial);
+//		print("pos inicial "+posInicial);
 		active_key=false;
 	}
 
@@ -42,33 +36,27 @@ public class Gravedad : MonoBehaviour {
 		return Vector2.Distance(transformPersonaje.position,transformPlaneta.position);
 	}
 	public void Desplazamiento(){
-		fuerzaVertical=magnitudGravedad+playerControl.MagnitudVelocidad;
-		print(fuerzaVertical);
-//		fuerzaVertical=Mathf.Abs(fuerzaVertical);
-		//magnitud+=fuerza*Time.deltaTime;
-		print("fuerza vertical "+fuerzaVertical);
-		if(active_key==false){
-		magnitudGravedad-=0.2f*Time.deltaTime;
-			//print("gravedad "+magnitudGravedad);
-		}
 
-		if(fuerzaVertical<0.0f){
-			print("gana gravedad comun");
-		
+
+		fuerzaVertical2=constanteAcum+playerControl.MagnitudVelocidad2;
+		velocidad_01=(fuerzaVertical2/frecuencia)*60;
+	//	print(fuerzaVertical2);
+
+		print("velocidad_01 "+velocidad_01);
+
+		if(fuerzaVertical2<0.0f){
+	//		print("gana gravedad comun");
 			DesplazamientoGravedad(-1);
-				
 		}
-		if(fuerzaVertical>0.0f&&active_key==false){
-			print("player suspendido");
+		if(fuerzaVertical2>0.0f&&active_key==false){
+	//		print("player suspendido");
 			DesplazamientoGravedad(1);
 		}
-		//print("magnitud "+magnitud);
-		//return magnitud;
 	}
-	void DesplazamientoGravedad(int d){
+	void DesplazamientoGravedad(int direccion){
 		propx=PropX();
 		propy=PropY();
-		rb.AddForce(new Vector2(propx,propy)*fuerzaVertical*d);
+		rb.transform.Translate(new Vector2(propx,propy)*fuerzaVertical2*direccion*Time.deltaTime,Space.World);
 	}
 
 	float PropX(){
@@ -79,37 +67,33 @@ public class Gravedad : MonoBehaviour {
 		//calculo la proporcion en x y divido la distancia, para saber cuanto me tengo q mover en y
 		return (transformPlaneta.position.y-transformPersonaje.position.y)/CalcDistance();
 	}
-
-
 	void FixedUpdate(){
-		
-
 		Desplazamiento();
 		//print("vertical speed "+Desplazamiento());
-		//time+=Time.deltaTime;
-		//if(time>0.5f){
-		//constanteAcum+=0.02f;
-	//	}
-		//magnitud=aceleracion-playerControl.SpeedPlayer;
-		//print("distanciaAcumulada "+distanciaAcumulada);
-		//print("magnitud"+magnitud);
-		//rb.transform.Translate(new Vector2(propx,propy)*Desplazamiento(),Space.World);//establezco el translate del vector segun las proporciones en x e y y establezco como referencia el mundo sino tengo problemas con la rotacion  
-	//	rb.AddForce(new Vector2(propx,propy)*magnitud);	
+		time+=Time.deltaTime;
+		if(time>frecuencia&&active_key==false){
+		constanteAcum-=0.2f;
+		time=0.0f;
+		//print("acum "+constanteAcum);
 		}
 
-	public float MagnitudGravity{
+		}
+
+
+	public float MagnitudGravity2{
 		get{
-			return magnitudGravedad;
+			return constanteAcum;
 		}
 
 
 	}
-	public float FuerzaVertical_prop{
+
+	public float FuerzaVertical_prop2{
 		get{
-			return fuerzaVertical;
+			return fuerzaVertical2;
 		}
 		set{
-			fuerzaVertical=value;
+			fuerzaVertical2=value;
 		}
 
 	}
@@ -120,7 +104,8 @@ public class Gravedad : MonoBehaviour {
 	set{
 		active_key=value;
 		}
-}
+
+	}		
 
 }
 

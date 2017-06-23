@@ -2,80 +2,47 @@
 
 public class PlayerController_01 : MonoBehaviour {
 	public float velocityRotacion;
-	private float velocity=0;
 
-
-	private float verticalSpeed=0;//velocidad vertical
 	private int vidas=3;
-	private float acumuladorFuerzaEjeVertical=0;
 	private float acumuladorFuerzaRotacion=0;
 	private int combustible=950;
 	private Rigidbody2D rbody;
 	private string nombreAxisRotacion="ejeHorizontal";
-	//private bool izquierda=false;
-	private float distanciaRecorrida;
 	private Gravedad compGravedad;
-	private Vector2 vspeed;
 	public int direccion=1;
-
+	private float time;
+	private float constanteAcum=0;
 	void Awake () {
 		rbody=GetComponent<Rigidbody2D>();
-		acumuladorFuerzaEjeVertical=0;
 		combustible=950;
 		compGravedad=GetComponent<Gravedad>();
-	//	izquierda=false;
-		velocity=0;
-	}
+		}
 	void Update () {
 
 		Teclas();
-		//verticalSpeed
-//		print("velocidad obj"+this.rbody.velocity);
-//		print("force "+rbody.velocity);
-		//print("player velocity vertical "+Calc());
+
 	}
 	public void Desplazamiento(){
-		
-		velocity+=0.2f*Time.deltaTime;
-	//	print("velocity "+velocity);
-		if(compGravedad.FuerzaVertical_prop<0){
+
+		if(compGravedad.FuerzaVertical_prop2<0){
 			direccion=-1;
 		}else{
 			direccion=1;
 		}
+		rbody.transform.Translate(Vector2.up*compGravedad.FuerzaVertical_prop2*direccion*Time.deltaTime,Space.Self);
 
-		if(compGravedad.FuerzaVertical_prop>0){
-			print("gana fuerza player");
-			rbody.AddRelativeForce(transform.up*compGravedad.FuerzaVertical_prop*direccion);
-
-		}
 	}
 	void Teclas(){
-		//print("boleeano "+	compGravedad.ActiveKey_prop);
-
-		//print("compGravedad.FuerzaVertical_prop "+compGravedad.FuerzaVertical_prop);	
 		if(Input.GetButton("arriba")){
-			print("press");
-			//acumuladorFuerzaEjeVertical=Input.GetAxis("arriba")*velocity;
+//			print("press");
 			compGravedad.ActiveKey_prop=true;
-		
-			//print("fuerzaVertical player"+compGravedad.FuerzaVertical_prop);
 			Desplazamiento();
-			//print("arriba"+velocity);
-		
-			//verticalSpeed+=acumuladorFuerzaEjeVertical*Time.deltaTime;
-
 		}
 		if(Input.GetButtonUp("arriba")){
-			
 			compGravedad.ActiveKey_prop=false;
-			//acumuladorFuerzaEjeVertical=0;
-			//verticalSpeed=0;
 		//	print("suelto arriba");
-			//aceleracion=0;
 		}
-		//print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
-		//print("Input.GetAxisRaw(nombreAxisRotacion) "+Input.GetAxisRaw(nombreAxisRotacion));
+
 		if(Input.GetButton(nombreAxisRotacion)){
 			
 			if(Input.GetAxisRaw(nombreAxisRotacion)>0){
@@ -99,6 +66,14 @@ public class PlayerController_01 : MonoBehaviour {
 		}
 
 	}
+	void FixedUpdate(){
+		time+=Time.deltaTime;
+		if(time>compGravedad.frecuencia&&compGravedad.ActiveKey_prop==true){
+			constanteAcum+=0.2f;
+			time=0.0f;
+		//	print("acum player "+constanteAcum);
+		}
+	}
 	public int Vidas{
 		get{
 			return vidas;
@@ -107,9 +82,10 @@ public class PlayerController_01 : MonoBehaviour {
 			vidas=value;
 		}
 	}
-	public float MagnitudVelocidad{
+
+	public float MagnitudVelocidad2{
 		get{
-			return velocity;
+			return constanteAcum;
 		}
 
 	}

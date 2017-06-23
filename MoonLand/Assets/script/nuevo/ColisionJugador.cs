@@ -10,14 +10,14 @@ public class ColisionJugador : MonoBehaviour {
 	public delegate void Deteccion();
 	public static  event Deteccion respawn;
 	public float limiteExplosionVelocidad=20;//variable q establece a q velocidad tiene q venir el objeto como limite para n morir
-
+	private Rigidbody2D rb;
 	void Awake () {
 		sprender=GetComponent<SpriteRenderer>();
 		transformJugador=GetComponent<Transform>();
 		gravedad=GetComponent<Gravedad>();
 		playerController=GetComponent<PlayerController_01>();
 		posInicial=transformJugador.position;
-
+		rb=GetComponent<Rigidbody2D>();
 
 		Timer.onRespawn+=OnRespawnPlayer;//evento q viene d timer cuando se cumple el respawn
 
@@ -28,11 +28,14 @@ public class ColisionJugador : MonoBehaviour {
 	
 		switch(c.tag){
 		case"planeta_tag":
+			print("muerte");		
 			//OnContactoObjeto();
 			break;
 		case"plataforma_tag":
 			OnContactoPlataforma();
-
+			Vector2 v=rb.GetRelativePointVelocity(this.GetComponent<Transform>().position);
+			print("fuerza contacto "+v);
+	
 			//rb.GetPointVelocity
 			break;
 		}
