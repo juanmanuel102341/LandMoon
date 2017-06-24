@@ -2,7 +2,8 @@
 
 public class PlayerController_01 : MonoBehaviour {
 	public float velocityRotacion;
-
+	public float velocidad;
+	public float frecuenciaPlayer;
 	private int vidas=3;
 	private float acumuladorFuerzaRotacion=0;
 	private int combustible=950;
@@ -68,8 +69,8 @@ public class PlayerController_01 : MonoBehaviour {
 	}
 	void FixedUpdate(){
 		time+=Time.deltaTime;
-		if(time>compGravedad.frecuencia&&compGravedad.ActiveKey_prop==true){
-			constanteAcum+=0.2f;
+		if(time>frecuenciaPlayer&&compGravedad.ActiveKey_prop==true){
+			constanteAcum+=velocidad;
 			time=0.0f;
 		//	print("acum player "+constanteAcum);
 		}

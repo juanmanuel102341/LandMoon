@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class Gravedad : MonoBehaviour {
+public class Gravedad_02 : MonoBehaviour {
 	public float fuerza;
 	private float propx;
 	private float propy;
@@ -10,7 +10,7 @@ public class Gravedad : MonoBehaviour {
 	private Transform transformPersonaje;
 	private Rigidbody2D rb;
 	private float distanceInicial;
-	private PlayerController_01 playerControl;
+	private PlayerController_02 playerControl;
 	private Vector2 posInicial;
 	private float constanteAcum=0;
 	private float time;
@@ -25,7 +25,7 @@ public class Gravedad : MonoBehaviour {
 		propx=PropX();
 		propy=PropY();
 		distanceInicial=Vector2.Distance(transformPersonaje.position,transformPlaneta.position);
-		playerControl=GetComponent<PlayerController_01>();
+		playerControl=GetComponent<PlayerController_02>();
 		posInicial=transform.position;
 //		print("pos inicial "+posInicial);
 		active_key=false;
@@ -34,30 +34,23 @@ public class Gravedad : MonoBehaviour {
 	float CalcDistance(){
 		//distancia entre el personaje y planeta
 		//print("distancia entre el planeta y jugador "+Vector2.Distance(transformPersonaje.position,transformPlaneta.position));
+	
 		return Vector2.Distance(transformPersonaje.position,transformPlaneta.position);
+	
 	}
 	public void Desplazamiento(){
 
 
-		fuerzaVertical2=constanteAcum+playerControl.MagnitudVelocidad2;
-		velocidad_01=(fuerzaVertical2/frecuencia);
-	//	print(fuerzaVertical2);
-
-		print("velocidad_01 "+velocidad_01);
-
-		if(fuerzaVertical2<0.0f){
-	//		print("gana gravedad comun");
-			DesplazamientoGravedad(-1);
-		}
-		if(fuerzaVertical2>0.0f&&active_key==false){
-	//		print("player suspendido");
-			DesplazamientoGravedad(1);
+		if(constanteAcum<0){
+		DesplazamientoGravedad();
+		}else {
+			constanteAcum=0;//la gravedad q se va acumulando n puede ser mas alta q 0
 		}
 	}
-	void DesplazamientoGravedad(int direccion){
+	void DesplazamientoGravedad(){
 		propx=PropX();
 		propy=PropY();
-		rb.transform.Translate(new Vector2(propx,propy)*fuerzaVertical2*direccion*Time.deltaTime,Space.World);
+		rb.AddForce(new Vector2(propx,propy)*constanteAcum*-1);//multiplico x -1 para q vaya para abajo
 	}
 
 	float PropX(){
@@ -72,6 +65,7 @@ public class Gravedad : MonoBehaviour {
 		Desplazamiento();
 		//print("vertical speed "+Desplazamiento());
 		time+=Time.deltaTime;
+		//print(rb.velocity);
 		if(time>frecuencia){
 		constanteAcum-=fuerza;
 		time=0.0f;
@@ -85,16 +79,15 @@ public class Gravedad : MonoBehaviour {
 		get{
 			return constanteAcum;
 		}
-
+		set{
+			constanteAcum=value;
+		}
 
 	}
 
-	public float FuerzaVertical_prop2{
+	public Vector2 Velocity{
 		get{
-			return fuerzaVertical2;
-		}
-		set{
-			fuerzaVertical2=value;
+			return rb.velocity;
 		}
 
 	}
