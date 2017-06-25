@@ -6,7 +6,7 @@ public class ColisionJugador : MonoBehaviour {
 	private SpriteRenderer sprender;
 	private Transform transformJugador;
 	private Vector2 posInicial;
-	private Gravedad gravedad;
+	private Gravedad_02 gravedad;
 	private PlayerController_02 playerController;
 	public delegate void Deteccion();
 	public static  event Deteccion respawn;
@@ -21,7 +21,7 @@ public class ColisionJugador : MonoBehaviour {
 	void Awake () {
 		sprender=GetComponent<SpriteRenderer>();
 		transformJugador=GetComponent<Transform>();
-		gravedad=GetComponent<Gravedad>();
+		gravedad=GetComponent<Gravedad_02>();
 		playerController=GetComponent<PlayerController_02>();
 		posInicial=transformJugador.position;
 		rb=GetComponent<Rigidbody2D>();

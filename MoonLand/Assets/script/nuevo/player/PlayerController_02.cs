@@ -39,8 +39,9 @@ public class PlayerController_02 : MonoBehaviour {
 //			print("press");
 			compGravedad.ActiveKey_prop=true;
 			if(compGravedad.MagnitudGravity2<0){
-				//actualizo el valor de la gravedad por lo q recorrio de velocidad, si es menor a 0, ya q si no hay gravedad n tiene sentido hacerlo 
-			compGravedad.MagnitudGravity2+=velocidad;
+	//actualizo el valor de lo q fue acumulando la gravedad por lo q recorrio de velocidad, si es menor a 0, ya q si no hay gravedad n tiene sentido hacerlo 
+	
+				compGravedad.MagnitudGravity2+=velocidad;
 			}
 			Desplazamiento();
 		}
@@ -63,7 +64,7 @@ public class PlayerController_02 : MonoBehaviour {
 //		print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
 		if(Input.GetAxisRaw(nombreAxisRotacion)<0&&transform.rotation.eulerAngles.z<90){
 		//rotacion  izquierda
-			print("izquierda activo");
+//			print("izquierda activo");
 			izquierda=true;
 		}
 

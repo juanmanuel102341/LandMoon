@@ -11,6 +11,7 @@ TagManager:
   - target
   - plataforma_tag
   - planeta_tag
+  - zoom_tag
   layers:
   - Default
   - TransparentFX
