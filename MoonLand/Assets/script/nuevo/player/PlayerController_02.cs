@@ -14,6 +14,9 @@ public class PlayerController_02 : MonoBehaviour {
 	private float time;
 	private float constanteAcum=0;
 	private bool izquierda=false;
+	public delegate void SoundCall();
+	public static event SoundCall Down;//evento creado para informar a sonido
+	public static event SoundCall Up;
 	void Awake () {
 		rbody=GetComponent<Rigidbody2D>();
 		combustible=950;
@@ -37,6 +40,7 @@ public class PlayerController_02 : MonoBehaviour {
 	void Teclas(){
 		if(Input.GetButton("arriba")){
 //			print("press");
+			Down();//informa a sonido tecla presionada
 			compGravedad.ActiveKey_prop=true;
 			if(compGravedad.MagnitudGravity2<0){
 	//actualizo el valor de lo q fue acumulando la gravedad por lo q recorrio de velocidad, si es menor a 0, ya q si no hay gravedad n tiene sentido hacerlo 
@@ -47,7 +51,7 @@ public class PlayerController_02 : MonoBehaviour {
 		}
 		if(Input.GetButtonUp("arriba")){
 			compGravedad.ActiveKey_prop=false;
-
+			Up();//informa a sonido tecla levantada
 		}
 
 		if(Input.GetButton(nombreAxisRotacion)){
