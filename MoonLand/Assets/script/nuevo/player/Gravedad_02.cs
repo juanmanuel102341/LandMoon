@@ -16,7 +16,7 @@ public class Gravedad_02 : MonoBehaviour {
 	private float time;
 	private float fuerzaVertical2=0;
 	private bool active_key=false;
-	public float frecuencia=0.4f;
+	private float frecuencia=0.0f;
 	private float velocidad_01;
 	//public static bool activeKey=false;
 	void Awake(){

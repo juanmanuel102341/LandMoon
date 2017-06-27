@@ -12,6 +12,18 @@ TagManager:
   - plataforma_tag
   - planeta_tag
   - zoom_tag
+  - velocidad_gui
+  - aterrizajes_gui
+  - Vidas_gui
+  - numGui
+  - sensor_tag
+  - limite_i
+  - limite_d
+  - limite_up
+  - limite_down
+  - gui_l
+  - gameActive
+  - padre_gui
   layers:
   - Default
   - TransparentFX

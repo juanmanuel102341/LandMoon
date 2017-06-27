@@ -25,9 +25,9 @@ public class Timer : MonoBehaviour {
 	void Update () {
 			if(active){
 			time+=Time.deltaTime;
-			//print("tiempo "+time);
+//			print("tiempo "+time);
 			if(time>currentTime){
-			//	print("tiempo cumplido");
+				//print("tiempo cumplido");
 			current();		
 			active=false;
 			time=0;
@@ -40,24 +40,19 @@ public class Timer : MonoBehaviour {
 
 
 	void OnTimeRespawn(){
+		print("on time respawn");
 		enabled=true;//activo componente
 		active=true;//activo timer
+		current=onRespawn;
+		currentTime=respawn;//le paso al timer el tiempo requerido
+	}
 
-	}
-	void Respawn(){
-		if(time>respawn){
-			time=0;
-			active=false;
-			current=onRespawn;//activo respawn para q el player aparezca
-			enabled=false;
-			currentTime=respawn;//le paso al timer el tiempo requerido
-		}
-	}
 	void OnTimeAterrizaje(){
 		print("aterrizaje conteo");
 		enabled=true;//activo componente
 		active=true;//activo timer
 		current=onAterrizajeFinish;
 		currentTime=timeAterrizaje;//le paso a timer tiempo rquerido
-	} 
+	}
+
 }

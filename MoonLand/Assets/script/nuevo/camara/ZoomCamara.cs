@@ -20,5 +20,10 @@ public class ZoomCamara : MonoBehaviour {
 		print("camara out");
 		camara.orthographicSize=initialZoom;
 	} 
+	public float getZoom{
+		get{
+			return initialZoom;
+		}
+	}
 
 }

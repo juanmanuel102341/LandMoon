@@ -4,7 +4,8 @@ public class PlayerController_02 : MonoBehaviour {
 	public float velocityRotacion;
 	public float velocidad;
 	public float frecuenciaPlayer;
-	private int vidas=3;
+	public int vidas;
+	private int currentVidas;
 	private float acumuladorFuerzaRotacion=0;
 	private int combustible=950;
 	private Rigidbody2D rbody;
@@ -17,28 +18,36 @@ public class PlayerController_02 : MonoBehaviour {
 	public delegate void SoundCall();
 	public static event SoundCall Down;//evento creado para informar a sonido
 	public static event SoundCall Up;
+	public delegate void UpdateGuiVelocity(Vector2 num);
+	public static  event UpdateGuiVelocity OnUpdateVelocity_gui;
+	//public Boundary boundarys;
+	private bool fronteraActive=false;
+	private string currentFrontera;
+
 	void Awake () {
+		currentVidas=vidas;
 		rbody=GetComponent<Rigidbody2D>();
 		combustible=950;
 		compGravedad=GetComponent<Gravedad_02>();
-		}
+
+	}
 	void Update () {
 
 		Teclas();
 
 	}
 	public void Desplazamiento(){
-
-	//	if(compGravedad.FuerzaVertical_prop2<0){
-	//		direccion=-1;
-	//	}else{
-	//		direccion=1;
-	//	}
+		
 
 		rbody.AddRelativeForce(Vector2.up*constanteAcum*direccion);
 	}
 	void Teclas(){
-		if(Input.GetButton("arriba")){
+		if(this.enabled){
+		OnUpdateVelocity_gui(rbody.velocity);
+		}
+
+	
+		if(Input.GetButton("arriba")&&!fronteraActive){
 //			print("press");
 			Down();//informa a sonido tecla presionada
 			compGravedad.ActiveKey_prop=true;
@@ -48,6 +57,52 @@ public class PlayerController_02 : MonoBehaviour {
 				compGravedad.MagnitudGravity2+=velocidad;
 			}
 			Desplazamiento();
+		}else if(fronteraActive){
+			print("limite "+currentFrontera);
+			rbody.velocity=new Vector2(0.0f,0.0f);
+			print("transform.rotation.eulerAngles.z "+transform.rotation.eulerAngles.z);
+			print("gravedad "+compGravedad.MagnitudGravity2);
+	
+			switch(currentFrontera)
+			{
+			case "limite_i":
+				if(compGravedad.MagnitudGravity2<-8.0f||transform.rotation.eulerAngles.z>359){
+					//actua gravedad o euler x rotacion 
+
+					compGravedad.MagnitudGravity2=0;//reseteamos gravedad para q no salga disparado
+					print("desbloqueo");
+					fronteraActive=false;
+					currentFrontera="";
+				}
+				break;
+
+			case"limite_d":
+				if(compGravedad.MagnitudGravity2<-8.0f||transform.rotation.eulerAngles.z<90){
+					compGravedad.MagnitudGravity2=0;
+					fronteraActive=false;
+					currentFrontera="";
+
+				}
+				break;
+			case"limite_up":
+				if(compGravedad.MagnitudGravity2<-8.0f||transform.rotation.eulerAngles.z<315.0f&&transform.rotation.eulerAngles.z>90||transform.rotation.eulerAngles.z>50.0f&&transform.rotation.eulerAngles.z<90.0f){
+					compGravedad.MagnitudGravity2=0;
+					fronteraActive=false;
+					currentFrontera="";
+
+				}
+				break;
+			case"limite_down":
+				if(compGravedad.MagnitudGravity2<-8.0f){
+					compGravedad.MagnitudGravity2=0;
+					fronteraActive=false;
+					currentFrontera="";
+
+				}
+				break;
+
+			}
+
 		}
 		if(Input.GetButtonUp("arriba")){
 			compGravedad.ActiveKey_prop=false;
@@ -102,12 +157,38 @@ public class PlayerController_02 : MonoBehaviour {
 		//	print("acum player "+constanteAcum);
 		}
 	}
-	public int Vidas{
-		get{
-			return vidas;
-		}
-		set{
-			vidas=value;
+	void OnTriggerEnter2D(Collider2D obj){
+		switch(obj.tag){
+
+		case"limite_i":
+			fronteraActive=true;
+			currentFrontera=obj.tag;
+			print("Frontera "+fronteraActive);
+			print("currentFrontera "+currentFrontera);
+			break;
+		
+		case"limite_d":
+			
+			fronteraActive=true;
+			currentFrontera=obj.tag;
+			print("Frontera "+fronteraActive);
+			print("currentFrontera "+currentFrontera);
+			break;
+
+		case"limite_up":
+
+			fronteraActive=true;
+			currentFrontera=obj.tag;
+			print("Frontera "+fronteraActive);
+			print("currentFrontera "+currentFrontera);
+			break;
+		case"limite_down":
+
+			fronteraActive=true;
+			currentFrontera=obj.tag;
+			print("Frontera "+fronteraActive);
+			print("currentFrontera "+currentFrontera);
+			break;
 		}
 	}
 
@@ -116,5 +197,13 @@ public class PlayerController_02 : MonoBehaviour {
 			return constanteAcum;
 		}
 
+	}
+	public int CurrentVidas{
+		get{
+			return currentVidas;
+		}
+		set{
+			currentVidas=value;
+		}
 	}
 }
