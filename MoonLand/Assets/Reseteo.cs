@@ -7,7 +7,7 @@ public class Reseteo : MonoBehaviour {
 	private Camera mainCamera;
 	public GameObject guiLoose;
 	public GameObject guiWin;
-	public GameObject guiMenu;
+	//public GameObject guiMenu;
 	private GameObject objPadre;
 	private bool win=false;
 	void Start () {
@@ -16,7 +16,7 @@ public class Reseteo : MonoBehaviour {
 		}
 		ColisionJugador.juegoTerminado+=InstanciaDefinicion;
 		PlayAgain.newGame+=OnNewGame;
-		PlayAgain.newGame_Menu+=OnNewGameMenu;
+	
 		guiLoose.SetActive(false);
 
 		mainCamera=GetComponent<Camera>();
@@ -54,6 +54,12 @@ public class Reseteo : MonoBehaviour {
 		}
 	public void OnNewGame(){
 		ResetGame();
+		int n=PlayerPrefs.GetInt("sonidoPlayer");
+		if(n==0){
+			Sonido.soundOn=false;
+		}else{
+			Sonido.soundOn=true;
+		}
 		if(win==false){
 		guiLoose.SetActive(false);//desactivamos gui
 		}
@@ -62,10 +68,5 @@ public class Reseteo : MonoBehaviour {
 		}
 			objPadre.SetActive(true);//activamos padre juego
 	}
-	public void OnNewGameMenu(){
-		print("nuevoJuego desde menu");
-		guiMenu.SetActive(false);
-		objPadre.SetActive(true);
-	} 
 
 }

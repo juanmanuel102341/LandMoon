@@ -12,6 +12,8 @@ public class Distancias : MonoBehaviour {
 	private float [] dist;
 	private Transform current;
 	private Transform planetMenor;
+	public static string nameMenor;
+	public static Vector2 positionMenor;
 
 	void Awake () {
 	
@@ -28,7 +30,8 @@ public class Distancias : MonoBehaviour {
 		dist=new float[obj.Length];//redimensiono array a la cantidad d planetas
 		planetMenor=GetMenorDistance();
 		current=planetMenor;//momento inicial son iguales
-
+		nameMenor=planetMenor.name;
+		positionMenor=planetMenor.position;
 	}
 	void Start(){
 		PlanetaCercanoDeteccion(planetMenor);//pasamos el evento al player en gravedad_02
@@ -44,7 +47,7 @@ public class Distancias : MonoBehaviour {
 		dist[i]=Vector2.Distance(transformsPlanetas[i].position,playerTransform.position);
 		//print("distancia "+dist[i]);
 			if(i==0){
-				//print("distancia menor "+transformsPlanetas[i].name);
+				print("distancia menor "+transformsPlanetas[i].name);
 				distMenor=dist[i];
 				AuxMenor=transformsPlanetas[i];
 			}else {
@@ -65,8 +68,11 @@ public class Distancias : MonoBehaviour {
 		if(current.name!=planetMenor.name){
 			//si hubo un cambio de menor entras
 			print("change menor "+current.name);
-			PlanetaCercanoDeteccion(current);
+
 			planetMenor=current;//seteo ahroa el planeta menor a current
+			positionMenor=planetMenor.position;
+			nameMenor=planetMenor.name;
+			PlanetaCercanoDeteccion(current);
 		}
 	}
 }

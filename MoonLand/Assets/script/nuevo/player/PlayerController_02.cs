@@ -20,6 +20,7 @@ public class PlayerController_02 : MonoBehaviour {
 	public static event SoundCall Up;
 	public delegate void UpdateGuiVelocity(Vector2 num);
 	public static  event UpdateGuiVelocity OnUpdateVelocity_gui;
+
 	//public Boundary boundarys;
 	private bool fronteraActive=false;
 	private string currentFrontera;
@@ -205,5 +206,11 @@ public class PlayerController_02 : MonoBehaviour {
 		set{
 			currentVidas=value;
 		}
+	}
+	public Vector2 GetPositionPLayer{
+		get{
+			return transform.position;
+		}
+
 	}
 }

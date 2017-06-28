@@ -6,6 +6,7 @@ public class Sonido : MonoBehaviour {
 	public AudioSource audio_up;
 	public AudioSource audio_Explosion;
 	private bool active=false;
+	public static bool soundOn=false;	
 	// Use this for initialization
 	void Awake() {
 		PlayerController_02.Down+=OnDown;//player presina arriba
@@ -24,7 +25,7 @@ public class Sonido : MonoBehaviour {
 		
 	}
 	void OnDown(){
-		if(audio_up.isPlaying==false){
+		if(audio_up.isPlaying==false&&soundOn){
 			
 		print("arriba desde sonido");
 		audio_up.Play();
@@ -33,7 +34,7 @@ public class Sonido : MonoBehaviour {
 	}
 	void OnUp(){
 		print("dejo de presionar desde sonido");
-		if(audio_up.isPlaying){
+		if(audio_up.isPlaying&&soundOn){
 		audio_up.Stop();
 			active=false;
 		}
@@ -41,7 +42,7 @@ public class Sonido : MonoBehaviour {
 	}
 	void OnColision(){
 		print("colision ");
-		if(!audio_Explosion.isPlaying){
+		if(!audio_Explosion.isPlaying&&soundOn){
 			print("explosion");
 			audio_Explosion.Play();
 		}

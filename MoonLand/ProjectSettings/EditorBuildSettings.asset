@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/win.unity
   - enabled: 1
     path: Assets/loose.unity
+  - enabled: 1
+    path: Assets/credits.unity
