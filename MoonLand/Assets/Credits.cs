@@ -11,6 +11,8 @@ public class Credits : MonoBehaviour {
 	
 	// Update is called once per frame
 	public void OonCredits () {
-		SceneManager.LoadScene("menu");
+		print("menu");
+
+		SceneManager.LoadScene("credits");
 	}
 }

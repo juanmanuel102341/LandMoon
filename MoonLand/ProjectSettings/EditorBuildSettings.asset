@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/menu.unity
   - enabled: 1
     path: Assets/2.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/win.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/loose.unity
   - enabled: 1
     path: Assets/credits.unity
